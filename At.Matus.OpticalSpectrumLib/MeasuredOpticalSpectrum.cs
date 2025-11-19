@@ -14,19 +14,14 @@ namespace At.Matus.OpticalSpectrumLib
         public double[] MaxValues => dataPoints.Select(dp => dp.MaxSignal).ToArray();
         public double[] MinValues => dataPoints.Select(dp => dp.MinSignal).ToArray();
         public ISpectralPoint[] DataPoints => dataPoints.Cast<ISpectralPoint>().ToArray();
-
         public double MaximumSignal => this.GetMaximumSignal();
         public double MinimumSignal => this.GetMinimumSignal();
-
         public int NumberOfSpectra => dataPoints[0].SampleSize;
         public int NumberOfPoints => dataPoints.Length;
-        public bool IsOverexposed => MaximumSignal >= 1; // this threshold can be adjusted as needed
+        //public bool IsOverexposed => MaximumSignal >= 1; // TODO this threshold must be adjusted as needed
         public bool IsEmpty => NumberOfSpectra == 0;
 
-        public MeasuredOpticalSpectrum(double[] wavelength)
-        {
-            dataPoints = wavelength.Select(w => new MeasuredSpectralPoint(w)).ToArray();
-        }
+        public MeasuredOpticalSpectrum(double[] wavelength) => dataPoints = wavelength.Select(w => new MeasuredSpectralPoint(w)).ToArray();
 
         public void UpdateSignal(double[] values)
         {
@@ -45,10 +40,7 @@ namespace At.Matus.OpticalSpectrumLib
             }
         }
 
-        public override string ToString()
-        {
-            return $"{Name}: {NumberOfSpectra} spectra, MinSignal={MinimumSignal:0.000}, MaxSignal={MaximumSignal:0.000}";
-        }
+        public override string ToString() => $"{Name}: {NumberOfSpectra} spectra, MinSignal={MinimumSignal}, MaxSignal={MaximumSignal}";
 
         private readonly MeasuredSpectralPoint[] dataPoints;
     }

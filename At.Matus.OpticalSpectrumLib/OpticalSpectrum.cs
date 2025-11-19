@@ -12,7 +12,6 @@ namespace At.Matus.OpticalSpectrumLib
         public double[] StdDevValues => dataPoints.Select(dp => dp.StdDev).ToArray();
         public ISpectralPoint[] DataPoints => dataPoints.Cast<ISpectralPoint>().ToArray();
         public int NumberOfPoints => dataPoints.Length;
-
         public double MaximumSignal => this.GetMaximumSignal();
         public double MinimumSignal => this.GetMinimumSignal();
 
@@ -43,10 +42,7 @@ namespace At.Matus.OpticalSpectrumLib
             }
         }
 
-        public override string ToString()
-        {
-            return $"{Name}: computed spectrum, MinSignal={MinimumSignal:0.000}, MaxSignal={MaximumSignal:0.000}";
-        }
+        public override string ToString() => $"{Name}: computed spectrum, MinSignal={MinimumSignal}, MaxSignal={MaximumSignal}";
 
         private readonly SpectralPoint[] dataPoints;
     }
