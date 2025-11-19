@@ -9,5 +9,7 @@
         double[] StdDevValues { get; }
         ISpectralPoint[] DataPoints { get; }
         int NumberOfPoints { get; }
+        double MaximumSignal { get; }
+        double MinimumSignal { get; }
     }
 }

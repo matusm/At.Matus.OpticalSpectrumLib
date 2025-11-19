@@ -15,12 +15,12 @@ namespace At.Matus.OpticalSpectrumLib
         public double[] MinValues => dataPoints.Select(dp => dp.MinSignal).ToArray();
         public ISpectralPoint[] DataPoints => dataPoints.Cast<ISpectralPoint>().ToArray();
 
-        public double MaximumValue => GetMaximumValue();
-        public double MinimumValue => GetMinimumValue();
+        public double MaximumSignal => this.GetMaximumSignal();
+        public double MinimumSignal => this.GetMinimumSignal();
 
         public int NumberOfSpectra => dataPoints[0].SampleSize;
         public int NumberOfPoints => dataPoints.Length;
-        public bool IsOverexposed => MaximumValue >= 1; // this threshold can be adjusted as needed
+        public bool IsOverexposed => MaximumSignal >= 1; // this threshold can be adjusted as needed
         public bool IsEmpty => NumberOfSpectra == 0;
 
         public MeasuredOpticalSpectrum(double[] wavelength)
@@ -47,27 +47,7 @@ namespace At.Matus.OpticalSpectrumLib
 
         public override string ToString()
         {
-            return $"{Name}: {NumberOfSpectra} spectra, MinSignal={MinimumValue:0.000}, MaxSignal={MaximumValue:0.000}";
-        }
-
-        private double GetMaximumValue()
-        {
-            StatisticPod.StatisticPod sp = new StatisticPod.StatisticPod();
-            foreach (var dp in dataPoints)
-            {
-                sp.Update(dp.MaxSignal);
-            }
-            return sp.MaximumValue;
-        }
-
-        private double GetMinimumValue()
-        {
-            StatisticPod.StatisticPod sp = new StatisticPod.StatisticPod();
-            foreach (var dp in dataPoints)
-            {
-                sp.Update(dp.MinSignal);
-            }
-            return sp.MinimumValue;
+            return $"{Name}: {NumberOfSpectra} spectra, MinSignal={MinimumSignal:0.000}, MaxSignal={MaximumSignal:0.000}";
         }
 
         private readonly MeasuredSpectralPoint[] dataPoints;

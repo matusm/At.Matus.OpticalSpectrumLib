@@ -13,8 +13,8 @@ namespace At.Matus.OpticalSpectrumLib
         public ISpectralPoint[] DataPoints => dataPoints.Cast<ISpectralPoint>().ToArray();
         public int NumberOfPoints => dataPoints.Length;
 
-        public double MaximumValue => GetMaximumValue();
-        public double MinimumValue => GetMinimumValue();
+        public double MaximumSignal => this.GetMaximumSignal();
+        public double MinimumSignal => this.GetMinimumSignal();
 
         // constructor that copies data from another Spectrum or MeasuredSpectrum
         public OpticalSpectrum(IOpticalSpectrum spectrum)
@@ -45,27 +45,7 @@ namespace At.Matus.OpticalSpectrumLib
 
         public override string ToString()
         {
-            return $"{Name}: computed spectrum, MinSignal={MinimumValue:0.000}, MaxSignal={MaximumValue:0.000}";
-        }
-
-        private double GetMaximumValue()
-        {
-            StatisticPod.StatisticPod sp = new StatisticPod.StatisticPod();
-            foreach (var dp in dataPoints)
-            {
-                sp.Update(dp.Signal);
-            }
-            return sp.MaximumValue;
-        }
-
-        private double GetMinimumValue()
-        {
-            StatisticPod.StatisticPod sp = new StatisticPod.StatisticPod();
-            foreach (var dp in dataPoints)
-            {
-                sp.Update(dp.Signal);
-            }
-            return sp.MinimumValue;
+            return $"{Name}: computed spectrum, MinSignal={MinimumSignal:0.000}, MaxSignal={MaximumSignal:0.000}";
         }
 
         private readonly SpectralPoint[] dataPoints;

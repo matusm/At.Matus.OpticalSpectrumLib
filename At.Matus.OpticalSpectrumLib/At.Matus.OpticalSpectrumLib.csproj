@@ -50,6 +50,7 @@
     <Compile Include="MeasuredOpticalSpectrum.cs" />
     <Compile Include="MeasuredSpectralPoint.cs" />
     <Compile Include="OpticalSpectrum.cs" />
+    <Compile Include="OpticalSpectrumExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecMath.cs" />
     <Compile Include="SpectralPoint.cs" />
