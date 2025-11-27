@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="At.Matus.MetaData">
+      <HintPath>..\..\At.Matus.MetaData\At.Matus.MetaData\bin\Release\At.Matus.MetaData.dll</HintPath>
+    </Reference>
     <Reference Include="At.Matus.StatisticPod">
       <HintPath>..\..\At.Matus.StatisticPod\bin\Release\At.Matus.StatisticPod.dll</HintPath>
     </Reference>

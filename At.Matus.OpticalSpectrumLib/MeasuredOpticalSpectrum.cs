@@ -1,4 +1,5 @@
-﻿using System;
+﻿using At.Matus.MetaData;
+using System;
 using System.Linq;
 
 namespace At.Matus.OpticalSpectrumLib
@@ -6,6 +7,7 @@ namespace At.Matus.OpticalSpectrumLib
     public class MeasuredOpticalSpectrum : IOpticalSpectrum
     {
         public string Name { get; set; } = "Measured Spectrum";
+        public MeasurementMetaData MetaData => metaData;
         public double[] Wavelengths => dataPoints.Select(dp => dp.Wavelength).ToArray();
         public double[] Signals => dataPoints.Select(dp => dp.Signal).ToArray();
         public double[] StdErrValues => dataPoints.Select(dp => dp.StdErr).ToArray();
@@ -18,10 +20,13 @@ namespace At.Matus.OpticalSpectrumLib
         public double MinimumSignal => this.GetMinimumSignal();
         public int NumberOfSpectra => dataPoints[0].SampleSize;
         public int NumberOfPoints => dataPoints.Length;
-        //public bool IsOverexposed => MaximumSignal >= 1; // TODO this threshold must be adjusted as needed
         public bool IsEmpty => NumberOfSpectra == 0;
 
-        public MeasuredOpticalSpectrum(double[] wavelength) => dataPoints = wavelength.Select(w => new MeasuredSpectralPoint(w)).ToArray();
+        public MeasuredOpticalSpectrum(double[] wavelength)
+        {
+            dataPoints = wavelength.Select(w => new MeasuredSpectralPoint(w)).ToArray();
+            metaData.AddRecord("Type", "MeasuredOpticalSpectrum");
+        }
 
         public void UpdateSignal(double[] values)
         {
@@ -40,8 +45,7 @@ namespace At.Matus.OpticalSpectrumLib
             }
         }
 
-        public override string ToString() => $"{Name}: {NumberOfSpectra} spectra, MinSignal={MinimumSignal}, MaxSignal={MaximumSignal}";
-
         private readonly MeasuredSpectralPoint[] dataPoints;
+        private readonly MeasurementMetaData metaData = new MeasurementMetaData();
     }
 }

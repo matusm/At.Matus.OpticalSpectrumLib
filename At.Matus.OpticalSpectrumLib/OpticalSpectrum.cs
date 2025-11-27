@@ -1,4 +1,5 @@
-﻿using System;
+﻿using At.Matus.MetaData;
+using System;
 using System.Linq;
 
 namespace At.Matus.OpticalSpectrumLib
@@ -6,6 +7,7 @@ namespace At.Matus.OpticalSpectrumLib
     public class OpticalSpectrum : IOpticalSpectrum
     {
         public string Name { get; set; } = "Spectrum";
+        public MeasurementMetaData MetaData => metaData;
         public double[] Wavelengths => dataPoints.Select(dp => dp.Wavelength).ToArray();
         public double[] Signals => dataPoints.Select(dp => dp.Signal).ToArray();
         public double[] StdErrValues => dataPoints.Select(dp => dp.StdErr).ToArray();
@@ -19,6 +21,8 @@ namespace At.Matus.OpticalSpectrumLib
         public OpticalSpectrum(IOpticalSpectrum spectrum)
         {
             Name = spectrum.Name;
+            metaData.AddRecords(spectrum.MetaData.Records);
+            metaData.AddRecord("Type", "OpticalSpectrumCopied");
             dataPoints = new SpectralPoint[spectrum.NumberOfPoints];
             for (int i = 0; i < spectrum.NumberOfPoints; i++)
             {
@@ -27,7 +31,11 @@ namespace At.Matus.OpticalSpectrumLib
             }
         }
 
-        public OpticalSpectrum(SpectralPoint[] dataPoints) => this.dataPoints = dataPoints;
+        public OpticalSpectrum(SpectralPoint[] dataPoints)
+        {
+            this.dataPoints = dataPoints;
+            metaData.AddRecord("Type", "OpticalSpectrumFromDataPoints");
+        }
 
         public OpticalSpectrum(double[] wavelength, double[] signals, double[] stdErrValues, double[] stdDevValues)
         {
@@ -40,10 +48,10 @@ namespace At.Matus.OpticalSpectrumLib
             {
                 dataPoints[i] = new SpectralPoint(wavelength[i], signals[i], stdErrValues[i], stdDevValues[i]);
             }
+            metaData.AddRecord("Type", "OpticalSpectrumFromArrays");
         }
 
-        public override string ToString() => $"{Name}: computed spectrum, MinSignal={MinimumSignal}, MaxSignal={MaximumSignal}";
-
         private readonly SpectralPoint[] dataPoints;
+        private readonly MeasurementMetaData metaData = new MeasurementMetaData();
     }
 }

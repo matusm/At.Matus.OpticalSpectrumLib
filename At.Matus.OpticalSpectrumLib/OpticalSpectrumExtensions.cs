@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace At.Matus.OpticalSpectrumLib
+﻿namespace At.Matus.OpticalSpectrumLib
 {
     public static class OpticalSpectrumExtensions
     {
