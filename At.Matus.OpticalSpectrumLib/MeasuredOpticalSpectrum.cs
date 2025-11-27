@@ -19,8 +19,7 @@ namespace At.Matus.OpticalSpectrumLib
         public double MaximumSignal => this.GetMaximumSignal();
         public double MinimumSignal => this.GetMinimumSignal();
         public int NumberOfSpectra => dataPoints[0].SampleSize;
-        public int NumberOfPoints => dataPoints.Length;
-        public bool IsEmpty => NumberOfSpectra == 0;
+        public int NumberOfPoints => dataPoints.Length; // this might be not correct if some points are NaN        public bool IsEmpty => NumberOfSpectra == 0;
 
         public MeasuredOpticalSpectrum(double[] wavelength)
         {
@@ -43,6 +42,11 @@ namespace At.Matus.OpticalSpectrumLib
             {
                 dataPoints[i].Clear();
             }
+        }
+
+        public void AddMetaDataRecord(string key, string value)
+        {
+            metaData.AddRecord(key, value);
         }
 
         private readonly MeasuredSpectralPoint[] dataPoints;

@@ -14,5 +14,7 @@ namespace At.Matus.OpticalSpectrumLib
         int NumberOfPoints { get; }
         double MaximumSignal { get; }
         double MinimumSignal { get; }
+
+        void AddMetaDataRecord(string key, string value);
     }
 }

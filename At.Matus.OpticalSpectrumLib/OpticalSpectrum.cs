@@ -51,6 +51,11 @@ namespace At.Matus.OpticalSpectrumLib
             metaData.AddRecord("Type", "OpticalSpectrumFromArrays");
         }
 
+        public void AddMetaDataRecord(string key, string value)
+        {
+            metaData.AddRecord(key, value);
+        }
+
         private readonly SpectralPoint[] dataPoints;
         private readonly MeasurementMetaData metaData = new MeasurementMetaData();
     }
