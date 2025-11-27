@@ -6,7 +6,6 @@ namespace At.Matus.OpticalSpectrumLib
 {
     public class MeasuredOpticalSpectrum : IOpticalSpectrum
     {
-        public string Name { get; set; } = "Measured Spectrum";
         public MeasurementMetaData MetaData => metaData;
         public double[] Wavelengths => dataPoints.Select(dp => dp.Wavelength).ToArray();
         public double[] Signals => dataPoints.Select(dp => dp.Signal).ToArray();

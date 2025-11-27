@@ -43,7 +43,6 @@ namespace At.Matus.OpticalSpectrumLib
                 newDataPoints[i] = new SpectralPoint(point.Wavelength, point.Signal * weights[i], point.StdErr * weights[i], point.StdDev * weights[i]);
             }
             OpticalSpectrum weightedSpectrum = new OpticalSpectrum(newDataPoints);
-            weightedSpectrum.Name = $"Weighted[{spectrum.Name}]";
             return weightedSpectrum;
         }
 

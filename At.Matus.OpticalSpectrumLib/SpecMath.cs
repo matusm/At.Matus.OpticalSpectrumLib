@@ -15,7 +15,6 @@ namespace At.Matus.OpticalSpectrumLib
                 newDataPoints[i] = Subtract(pointMin, pointSub);
             }
             OpticalSpectrum diff = new OpticalSpectrum(newDataPoints);
-            diff.Name = $"[{minuend.Name}] - [{subtrahend.Name}]";
             return diff;
         }
 
@@ -29,7 +28,6 @@ namespace At.Matus.OpticalSpectrumLib
                 newDataPoints[i] = Add(firstPoint, secondPoint);
             }
             OpticalSpectrum diff = new OpticalSpectrum(newDataPoints);
-            diff.Name = $"[{first.Name}] + [{second.Name}]";
             return diff;
         }
 
@@ -44,7 +42,6 @@ namespace At.Matus.OpticalSpectrumLib
                 newDataPoints[i] = ComputeBiasCorrectedRatio(signalPoint, referencePoint, bckgndPoint);
             }
             OpticalSpectrum ratio = new OpticalSpectrum(newDataPoints);
-            ratio.Name = $"RelBC[{signal.Name}] / [{reference.Name}]";
             return ratio;
         }
 
