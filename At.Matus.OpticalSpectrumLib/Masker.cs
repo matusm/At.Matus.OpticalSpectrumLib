@@ -15,20 +15,37 @@ namespace At.Matus.OpticalSpectrumLib
         public static OpticalSpectrum ApplyShortpassMask(IOpticalSpectrum spectrum, double cutoff, double hw, TransitionType transitionType = TransitionType.Linear)
         {
             double[] mask = GetShortpassMask(spectrum.Wavelengths, cutoff, hw, transitionType);
-            return Weighting(spectrum, mask);
+            var weightedSpectrum = Weighting(spectrum, mask);
+            weightedSpectrum.AddMetaDataRecord("MaskType", "Shortpass");
+            weightedSpectrum.AddMetaDataRecord("CutoffWavelength", cutoff.ToString());
+            weightedSpectrum.AddMetaDataRecord("TransitionWidth", hw.ToString());
+            weightedSpectrum.AddMetaDataRecord("TransitionType", transitionType.ToString());
+            return weightedSpectrum;
         }
 
         public static OpticalSpectrum ApplyLongpassMask(IOpticalSpectrum spectrum, double cutoff, double hw, TransitionType transitionType = TransitionType.Linear)
         {
             double[] mask = GetLongpassMask(spectrum.Wavelengths, cutoff, hw, transitionType);
-            return Weighting(spectrum, mask);
+            var weightedSpectrum = Weighting(spectrum, mask);
+            weightedSpectrum.AddMetaDataRecord("MaskType", "Longpass");
+            weightedSpectrum.AddMetaDataRecord("CutoffWavelength", cutoff.ToString());
+            weightedSpectrum.AddMetaDataRecord("TransitionWidth", hw.ToString());
+            weightedSpectrum.AddMetaDataRecord("TransitionType", transitionType.ToString());
+            return weightedSpectrum;
         }
 
         // the user must ensure that cutoffLow < cutoffHigh and the transition widths do not overlap
         public static OpticalSpectrum ApplyBandpassMask(IOpticalSpectrum spectrum, double cutoffLow, double cutoffHigh, double hwLow, double hwHigh, TransitionType transitionType = TransitionType.Linear)
         {
             double[] mask = GetBandpassMask(spectrum.Wavelengths, cutoffLow, cutoffHigh, hwLow, hwHigh, transitionType);
-            return Weighting(spectrum, mask);
+            var weightedSpectrum = Weighting(spectrum, mask);
+            weightedSpectrum.AddMetaDataRecord("MaskType", "Bandpass");
+            weightedSpectrum.AddMetaDataRecord("CutoffLowWavelength", cutoffLow.ToString());
+            weightedSpectrum.AddMetaDataRecord("CutoffHighWavelength", cutoffHigh.ToString());
+            weightedSpectrum.AddMetaDataRecord("TransitionLowWidth", hwLow.ToString());
+            weightedSpectrum.AddMetaDataRecord("TransitionHighWidth", hwHigh.ToString());
+            weightedSpectrum.AddMetaDataRecord("TransitionType", transitionType.ToString());
+            return weightedSpectrum;
         }
 
         public static OpticalSpectrum Weighting(IOpticalSpectrum spectrum, double[] weights)
