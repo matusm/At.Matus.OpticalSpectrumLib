@@ -4,7 +4,6 @@ namespace At.Matus.OpticalSpectrumLib
 {
     public static class SpecMath
     {
-
         public static OpticalSpectrum Subtract(IOpticalSpectrum minuend, IOpticalSpectrum subtrahend)
         {
             SpectralPoint[] newDataPoints = new SpectralPoint[minuend.NumberOfPoints];
@@ -15,6 +14,9 @@ namespace At.Matus.OpticalSpectrumLib
                 newDataPoints[i] = Subtract(pointMin, pointSub);
             }
             OpticalSpectrum diff = new OpticalSpectrum(newDataPoints);
+            diff.AddMetaDataRecord("Origin", "SpecMathSubtract");
+            diff.AddMetaDataRecordsWithPrefix("Minuend_", minuend.MetaData);
+            diff.AddMetaDataRecordsWithPrefix("Subtrahend_", subtrahend.MetaData);
             return diff;
         }
 
@@ -28,6 +30,9 @@ namespace At.Matus.OpticalSpectrumLib
                 newDataPoints[i] = Add(firstPoint, secondPoint);
             }
             OpticalSpectrum diff = new OpticalSpectrum(newDataPoints);
+            diff.AddMetaDataRecord("Origin", "SpecMathAdd");
+            diff.AddMetaDataRecordsWithPrefix("First_", first.MetaData);
+            diff.AddMetaDataRecordsWithPrefix("Second_", second.MetaData);
             return diff;
         }
 
@@ -42,6 +47,10 @@ namespace At.Matus.OpticalSpectrumLib
                 newDataPoints[i] = ComputeBiasCorrectedRatio(signalPoint, referencePoint, bckgndPoint);
             }
             OpticalSpectrum ratio = new OpticalSpectrum(newDataPoints);
+            ratio.AddMetaDataRecord("Origin", "SpecMathComputeBiasCorrectedRatio");
+            ratio.AddMetaDataRecordsWithPrefix("Signal_", signal.MetaData);
+            ratio.AddMetaDataRecordsWithPrefix("Reference_", reference.MetaData);
+            ratio.AddMetaDataRecordsWithPrefix("Bckgnd_", bckgnd.MetaData);
             return ratio;
         }
 
@@ -83,7 +92,6 @@ namespace At.Matus.OpticalSpectrumLib
             double u3 = v2 * (xb - x) * uxr;
             return Math.Sqrt((u1 * u1) + (u2 * u2) + (u3 * u3));
         }
-
         #endregion
 
     }

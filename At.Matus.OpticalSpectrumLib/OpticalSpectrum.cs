@@ -19,7 +19,7 @@ namespace At.Matus.OpticalSpectrumLib
         // constructor that copies data from another Spectrum or MeasuredSpectrum
         public OpticalSpectrum(IOpticalSpectrum spectrum)
         {
-            metaData.AddRecords(spectrum.MetaData.Records);
+            metaData.AddRecords(spectrum.MetaData);
             metaData.AddRecord("Type", "OpticalSpectrumCopied");
             dataPoints = new SpectralPoint[spectrum.NumberOfPoints];
             for (int i = 0; i < spectrum.NumberOfPoints; i++)
@@ -52,6 +52,11 @@ namespace At.Matus.OpticalSpectrumLib
         public void AddMetaDataRecord(string key, string value)
         {
             metaData.AddRecord(key, value);
+        }
+
+        public void AddMetaDataRecordsWithPrefix(string prefix, MeasurementMetaData records)
+        {
+                metaData.AddRecordsWithPrefix(prefix, records);
         }
 
         private readonly SpectralPoint[] dataPoints;

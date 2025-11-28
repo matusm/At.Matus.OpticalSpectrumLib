@@ -34,6 +34,7 @@
     <Reference Include="At.Matus.MetaData">
       <HintPath>..\..\At.Matus.MetaData\At.Matus.MetaData\bin\Release\At.Matus.MetaData.dll</HintPath>
     </Reference>
+    <Reference Include="At.Matus.MetaData.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="At.Matus.StatisticPod">
       <HintPath>..\..\At.Matus.StatisticPod\bin\Release\At.Matus.StatisticPod.dll</HintPath>
     </Reference>
