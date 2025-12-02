@@ -50,11 +50,12 @@
   <ItemGroup>
     <Compile Include="Abstractions\IOpticalSpectrum.cs" />
     <Compile Include="Abstractions\ISpectralPoint.cs" />
-    <Compile Include="Operations\Masks\Masker.cs" />
+    <Compile Include="Operations\Masker.cs" />
     <Compile Include="Domain\MeasuredOpticalSpectrum.cs" />
     <Compile Include="Domain\MeasuredSpectralPoint.cs" />
     <Compile Include="Domain\OpticalSpectrum.cs" />
     <Compile Include="Operations\OpticalSpectrumExtensions.cs" />
+    <Compile Include="Operations\SpecReg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Operations\SpecMath.cs" />
     <Compile Include="Domain\SpectralPoint.cs" />
