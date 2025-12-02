@@ -48,16 +48,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IOpticalSpectrum.cs" />
-    <Compile Include="ISpectralPoint.cs" />
-    <Compile Include="Masker.cs" />
-    <Compile Include="MeasuredOpticalSpectrum.cs" />
-    <Compile Include="MeasuredSpectralPoint.cs" />
-    <Compile Include="OpticalSpectrum.cs" />
-    <Compile Include="OpticalSpectrumExtensions.cs" />
+    <Compile Include="At.Matus.OpticalSpectrumLib.Abstractions\IOpticalSpectrum.cs" />
+    <Compile Include="At.Matus.OpticalSpectrumLib.Abstractions\ISpectralPoint.cs" />
+    <Compile Include="At.Matus.OpticalSpectrumLib.Operations\At.Matus.OpticalSpectrumLib.Abstractions.Masks\Masker.cs" />
+    <Compile Include="At.Matus.OpticalSpectrumLib.Domain\MeasuredOpticalSpectrum.cs" />
+    <Compile Include="At.Matus.OpticalSpectrumLib.Domain\MeasuredSpectralPoint.cs" />
+    <Compile Include="At.Matus.OpticalSpectrumLib.Domain\OpticalSpectrum.cs" />
+    <Compile Include="At.Matus.OpticalSpectrumLib.Operations\OpticalSpectrumExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecMath.cs" />
-    <Compile Include="SpectralPoint.cs" />
+    <Compile Include="At.Matus.OpticalSpectrumLib.Operations\SpecMath.cs" />
+    <Compile Include="At.Matus.OpticalSpectrumLib.Domain\SpectralPoint.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
