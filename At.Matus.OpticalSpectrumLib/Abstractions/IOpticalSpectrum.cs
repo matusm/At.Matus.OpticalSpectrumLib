@@ -9,10 +9,9 @@ namespace At.Matus.OpticalSpectrumLib
         double[] Signals { get; }
         double[] StdErrValues { get; }
         ISpectralPoint[] DataPoints { get; }
-        int NumberOfPoints { get; }
+        int NumberOfPoints { get; } // eg pixels
         double MaximumSignal { get; }
         double MinimumSignal { get; }
-
         void AddMetaDataRecord(string key, string value);
     }
 }
