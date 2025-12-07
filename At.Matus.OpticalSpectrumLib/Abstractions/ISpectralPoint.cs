@@ -4,8 +4,7 @@
     {
         double Wavelength { get; }
         double Signal { get; }
-        double StdErr { get; } // standard error of the mean (SEM)
-        double StdDev { get; }
+        double StdErr { get; } // standard error of the mean (SEM) or standard uncertainty
         string ToCsvLine();
         string GetCsvHeader();
     }

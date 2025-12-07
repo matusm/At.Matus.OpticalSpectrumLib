@@ -10,7 +10,6 @@ namespace At.Matus.OpticalSpectrumLib
         public double[] Wavelengths => dataPoints.Select(dp => dp.Wavelength).ToArray();
         public double[] Signals => dataPoints.Select(dp => dp.Signal).ToArray();
         public double[] StdErrValues => dataPoints.Select(dp => dp.StdErr).ToArray();
-        public double[] StdDevValues => dataPoints.Select(dp => dp.StdDev).ToArray();
         public int[] SampleSize => dataPoints.Select(dp => dp.SampleSize).ToArray();
         public double[] MaxValues => dataPoints.Select(dp => dp.MaxSignal).ToArray();
         public double[] MinValues => dataPoints.Select(dp => dp.MinSignal).ToArray();

@@ -59,16 +59,14 @@ namespace At.Matus.OpticalSpectrumLib
         {
             double newSignal = minuend.Signal - subtrahend.Signal;
             double newStdErr = SqSum(minuend.StdErr, subtrahend.StdErr);
-            double newStdDev = SqSum(minuend.StdDev, subtrahend.StdDev);
-            return new SpectralPoint(minuend.Wavelength, newSignal, newStdErr, newStdDev);
+            return new SpectralPoint(minuend.Wavelength, newSignal, newStdErr);
         }
 
         private static SpectralPoint Add(ISpectralPoint first, ISpectralPoint second)
         {
             double newSignal = first.Signal + second.Signal;
             double newStdErr = SqSum(first.StdErr, second.StdErr);
-            double newStdDev = SqSum(first.StdDev, second.StdDev);
-            return new SpectralPoint(first.Wavelength, newSignal, newStdErr, newStdDev);
+            return new SpectralPoint(first.Wavelength, newSignal, newStdErr);
         }
 
         private static SpectralPoint ComputeBiasCorrectedRatio(ISpectralPoint signal, ISpectralPoint reference, ISpectralPoint bckgnd)
@@ -77,8 +75,7 @@ namespace At.Matus.OpticalSpectrumLib
             double correctedReference = reference.Signal - bckgnd.Signal;
             double ratio = correctedSignal / correctedReference;
             double newSem = BiasCorrectedRatioUncertainty(signal.Signal, reference.Signal, bckgnd.Signal, signal.StdErr, reference.StdErr, bckgnd.StdErr);
-            double newStdDev = BiasCorrectedRatioUncertainty(signal.Signal, reference.Signal, bckgnd.Signal, signal.StdDev, reference.StdDev, bckgnd.StdDev);
-            return new SpectralPoint(signal.Wavelength, ratio, newSem, newStdDev);
+            return new SpectralPoint(signal.Wavelength, ratio, newSem);
         }
 
         private static double SqSum(double u1, double u2) => Math.Sqrt(u1 * u1 + u2 * u2);

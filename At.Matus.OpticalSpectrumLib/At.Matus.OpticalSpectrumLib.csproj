@@ -55,8 +55,8 @@
     <Compile Include="Domain\MeasuredSpectralPoint.cs" />
     <Compile Include="Domain\OpticalSpectrum.cs" />
     <Compile Include="Operations\SignalParameters.cs" />
-    <Compile Include="Operations\SpecReg.cs" />
-    <Compile Include="Operations\SpecRegHelper.cs" />
+    <Compile Include="Operations\Resampler.cs" />
+    <Compile Include="Operations\ResamplerHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Operations\SpecMath.cs" />
     <Compile Include="Domain\SpectralPoint.cs" />

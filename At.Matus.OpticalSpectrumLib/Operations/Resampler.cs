@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace At.Matus.OpticalSpectrumLib
 {
-    public static partial class SpecReg
+    public static partial class Resampler
     {
         public static OpticalSpectrum ResampleSpectrum(this IOpticalSpectrum inputSpec, double startWavelength, double endWavelength, double step)
         {
@@ -23,7 +23,6 @@ namespace At.Matus.OpticalSpectrumLib
             double[] inputWavelengths = inputSpec.Wavelengths;
             double[] inputIntensities = inputSpec.Signals;
             double[] inputStdErr = inputSpec.StdErrValues;
-            double[] inputStdDev = inputSpec.StdDevValues;
             double[] outputIntensities = new double[targetWavelengths.Length];
             double[] outputStdErr = new double[targetWavelengths.Length];
             double[] outputStdDev = new double[targetWavelengths.Length];
@@ -45,12 +44,9 @@ namespace At.Matus.OpticalSpectrumLib
                     double se0 = inputStdErr[smallerIndex];
                     double se1 = inputStdErr[largerIndex];
                     outputStdErr[i] = LinearInterpolate(x0, se0, x1, se1, targetWl);
-                    double sd0 = inputStdDev[smallerIndex];
-                    double sd1 = inputStdDev[largerIndex];
-                    outputStdDev[i] = LinearInterpolate(x0, sd0, x1, sd1, targetWl);
                 }
             }
-            var spec = new OpticalSpectrum(targetWavelengths, outputIntensities, outputStdErr, outputStdDev);
+            var spec = new OpticalSpectrum(targetWavelengths, outputIntensities, outputStdErr);
             return spec;
         }
     }

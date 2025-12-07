@@ -10,7 +10,6 @@ namespace At.Matus.OpticalSpectrumLib
         public double[] Wavelengths => dataPoints.Select(dp => dp.Wavelength).ToArray();
         public double[] Signals => dataPoints.Select(dp => dp.Signal).ToArray();
         public double[] StdErrValues => dataPoints.Select(dp => dp.StdErr).ToArray();
-        public double[] StdDevValues => dataPoints.Select(dp => dp.StdDev).ToArray();
         public ISpectralPoint[] DataPoints => dataPoints.Cast<ISpectralPoint>().ToArray();
         public int NumberOfPoints => dataPoints.Length;
         public double MaximumSignal => this.GetMaximumSignal();
@@ -25,7 +24,7 @@ namespace At.Matus.OpticalSpectrumLib
             for (int i = 0; i < spectrum.NumberOfPoints; i++)
             {
                 ISpectralPoint dp = spectrum.DataPoints[i];
-                dataPoints[i] = new SpectralPoint(dp.Wavelength, dp.Signal, dp.StdErr, dp.StdDev);
+                dataPoints[i] = new SpectralPoint(dp.Wavelength, dp.Signal, dp.StdErr);
             }
         }
 
@@ -35,16 +34,16 @@ namespace At.Matus.OpticalSpectrumLib
             metaData.AddRecord("Type", "OpticalSpectrumFromDataPoints");
         }
 
-        public OpticalSpectrum(double[] wavelength, double[] signals, double[] stdErrValues, double[] stdDevValues)
+        public OpticalSpectrum(double[] wavelength, double[] signals, double[] stdErrValues)
         {
-            if (wavelength.Length != signals.Length || wavelength.Length != stdErrValues.Length || wavelength.Length != stdDevValues.Length)
+            if (wavelength.Length != signals.Length || wavelength.Length != stdErrValues.Length)
             {
                 throw new ArgumentException("All input arrays must have the same length.");
             }
             dataPoints = new SpectralPoint[wavelength.Length];
             for (int i = 0; i < wavelength.Length; i++)
             {
-                dataPoints[i] = new SpectralPoint(wavelength[i], signals[i], stdErrValues[i], stdDevValues[i]);
+                dataPoints[i] = new SpectralPoint(wavelength[i], signals[i], stdErrValues[i]);
             }
             metaData.AddRecord("Type", "OpticalSpectrumFromArrays");
         }

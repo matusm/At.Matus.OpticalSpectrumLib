@@ -6,8 +6,7 @@ namespace At.Matus.OpticalSpectrumLib
     {
         public double Wavelength { get; }
         public double Signal => sp.AverageValue;
-        public double StdErr => StdDev / Math.Sqrt(SampleSize);
-        public double StdDev => sp.StandardDeviation;
+        public double StdErr => sp.StandardDeviation / Math.Sqrt(SampleSize);
         public double MaxSignal => sp.MaximumValue;
         public double MinSignal => sp.MinimumValue;
         public int SampleSize => (int)sp.SampleSize;
@@ -18,9 +17,9 @@ namespace At.Matus.OpticalSpectrumLib
 
         public void Clear() => sp.Restart();
 
-        public string ToCsvLine() => $"{Wavelength:F2},{Signal:F6},{MinSignal:F6},{MaxSignal:F6},{StdErr:F6},{StdDev:F6},{SampleSize}";
+        public string ToCsvLine() => $"{Wavelength},{Signal},{MinSignal},{MaxSignal},{StdErr},{SampleSize}";
 
-        public string GetCsvHeader() => "Wavelength,Signal,MinSignal,MaxSignal,SEM,StdDev,Samplesize";
+        public string GetCsvHeader() => "Wavelength,Signal,MinSignal,MaxSignal,StdErr,Samplesize";
 
         private readonly StatisticPod.StatisticPod sp = new StatisticPod.StatisticPod();
 

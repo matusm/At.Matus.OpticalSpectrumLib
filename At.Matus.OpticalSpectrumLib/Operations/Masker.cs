@@ -57,7 +57,7 @@ namespace At.Matus.OpticalSpectrumLib
             for (int i = 0; i < newDataPoints.Length; i++)
             {
                 ISpectralPoint point = spectrum.DataPoints[i];
-                newDataPoints[i] = new SpectralPoint(point.Wavelength, point.Signal * weights[i], point.StdErr * weights[i], point.StdDev * weights[i]);
+                newDataPoints[i] = new SpectralPoint(point.Wavelength, point.Signal * weights[i], point.StdErr * weights[i]);
             }
             OpticalSpectrum weightedSpectrum = new OpticalSpectrum(newDataPoints);
             return weightedSpectrum;

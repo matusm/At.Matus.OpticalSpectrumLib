@@ -2,7 +2,7 @@
 
 namespace At.Matus.OpticalSpectrumLib
 {
-    public static partial class SpecReg
+    public static partial class Resampler
     {
         // the array must be sorted in ascending order
         private static (int smallerIndex, int largerIndex) FindNeighbors(double[] arr, double target)
