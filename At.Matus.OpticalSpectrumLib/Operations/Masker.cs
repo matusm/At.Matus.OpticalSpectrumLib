@@ -12,7 +12,7 @@ namespace At.Matus.OpticalSpectrumLib
 
     public static class Masker
     {
-        public static OpticalSpectrum ApplyShortpassMask(IOpticalSpectrum spectrum, double cutoff, double hw, TransitionType transitionType = TransitionType.Linear)
+        public static OpticalSpectrum ApplyShortpassMask(this IOpticalSpectrum spectrum, double cutoff, double hw, TransitionType transitionType = TransitionType.Linear)
         {
             double[] mask = GetShortpassMask(spectrum.Wavelengths, cutoff, hw, transitionType);
             var weightedSpectrum = Weighting(spectrum, mask);
@@ -23,7 +23,7 @@ namespace At.Matus.OpticalSpectrumLib
             return weightedSpectrum;
         }
 
-        public static OpticalSpectrum ApplyLongpassMask(IOpticalSpectrum spectrum, double cutoff, double hw, TransitionType transitionType = TransitionType.Linear)
+        public static OpticalSpectrum ApplyLongpassMask(this IOpticalSpectrum spectrum, double cutoff, double hw, TransitionType transitionType = TransitionType.Linear)
         {
             double[] mask = GetLongpassMask(spectrum.Wavelengths, cutoff, hw, transitionType);
             var weightedSpectrum = Weighting(spectrum, mask);
@@ -35,7 +35,7 @@ namespace At.Matus.OpticalSpectrumLib
         }
 
         // the user must ensure that cutoffLow < cutoffHigh and the transition widths do not overlap
-        public static OpticalSpectrum ApplyBandpassMask(IOpticalSpectrum spectrum, double cutoffLow, double cutoffHigh, double hwLow, double hwHigh, TransitionType transitionType = TransitionType.Linear)
+        public static OpticalSpectrum ApplyBandpassMask(this IOpticalSpectrum spectrum, double cutoffLow, double cutoffHigh, double hwLow, double hwHigh, TransitionType transitionType = TransitionType.Linear)
         {
             double[] mask = GetBandpassMask(spectrum.Wavelengths, cutoffLow, cutoffHigh, hwLow, hwHigh, transitionType);
             var weightedSpectrum = Weighting(spectrum, mask);
@@ -48,7 +48,7 @@ namespace At.Matus.OpticalSpectrumLib
             return weightedSpectrum;
         }
 
-        public static OpticalSpectrum Weighting(IOpticalSpectrum spectrum, double[] weights)
+        public static OpticalSpectrum Weighting(this IOpticalSpectrum spectrum, double[] weights)
         {
             if (spectrum.NumberOfPoints != weights.Length)
                 throw new ArgumentException("Spectrum and weights must have the same number of points.");
