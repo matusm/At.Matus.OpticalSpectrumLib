@@ -43,7 +43,7 @@ namespace At.Matus.OpticalSpectrumLib
             {
                 ISpectralPoint numPoint = numerator.DataPoints[i];
                 ISpectralPoint denPoint = denominator.DataPoints[i];
-                newDataPoints[i] = Ratio(numPoint,denPoint);
+                newDataPoints[i] = Ratio(numPoint, denPoint);
             }
             OpticalSpectrum ratioSpectrum = new OpticalSpectrum(newDataPoints);
             ratioSpectrum.AddMetaDataRecord("Origin", "SpecMathRatio");
@@ -87,7 +87,7 @@ namespace At.Matus.OpticalSpectrumLib
 
         private static SpectralPoint Ratio(ISpectralPoint nominator, ISpectralPoint denominator)
         {
-            double newSignal = nominator.Signal + denominator.Signal;
+            double newSignal = nominator.Signal / denominator.Signal;
             double newStdErr = RatioUncertainty(nominator.Signal, denominator.Signal, nominator.StdErr, denominator.StdErr);
             newSignal = FixNaN(newSignal);
             newStdErr = FixNaN(newStdErr);
