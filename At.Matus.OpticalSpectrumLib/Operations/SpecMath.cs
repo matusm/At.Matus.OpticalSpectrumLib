@@ -36,6 +36,22 @@ namespace At.Matus.OpticalSpectrumLib
             return diff;
         }
 
+        public static OpticalSpectrum Ratio(IOpticalSpectrum numerator, IOpticalSpectrum denominator)
+        {
+            SpectralPoint[] newDataPoints = new SpectralPoint[numerator.NumberOfPoints];
+            for (int i = 0; i < newDataPoints.Length; i++)
+            {
+                ISpectralPoint numPoint = numerator.DataPoints[i];
+                ISpectralPoint denPoint = denominator.DataPoints[i];
+                newDataPoints[i] = Ratio(numPoint,denPoint);
+            }
+            OpticalSpectrum ratioSpectrum = new OpticalSpectrum(newDataPoints);
+            ratioSpectrum.AddMetaDataRecord("Origin", "SpecMathRatio");
+            ratioSpectrum.AddMetaDataRecordsWithPrefix("Numerator_", numerator.MetaData);
+            ratioSpectrum.AddMetaDataRecordsWithPrefix("Denominator_", denominator.MetaData);
+            return ratioSpectrum;
+        }
+
         public static OpticalSpectrum ComputeBiasCorrectedRatio(IOpticalSpectrum signal, IOpticalSpectrum reference, IOpticalSpectrum bckgnd)
         {
             SpectralPoint[] newDataPoints = new SpectralPoint[signal.NumberOfPoints];
@@ -69,12 +85,23 @@ namespace At.Matus.OpticalSpectrumLib
             return new SpectralPoint(first.Wavelength, newSignal, newStdErr);
         }
 
+        private static SpectralPoint Ratio(ISpectralPoint nominator, ISpectralPoint denominator)
+        {
+            double newSignal = nominator.Signal + denominator.Signal;
+            double newStdErr = RatioUncertainty(nominator.Signal, denominator.Signal, nominator.StdErr, denominator.StdErr);
+            newSignal = FixNaN(newSignal);
+            newStdErr = FixNaN(newStdErr);
+            return new SpectralPoint(nominator.Wavelength, newSignal, newStdErr);
+        }
+
         private static SpectralPoint ComputeBiasCorrectedRatio(ISpectralPoint signal, ISpectralPoint reference, ISpectralPoint bckgnd)
         {
             double correctedSignal = signal.Signal - bckgnd.Signal;
             double correctedReference = reference.Signal - bckgnd.Signal;
             double ratio = correctedSignal / correctedReference;
             double newSem = BiasCorrectedRatioUncertainty(signal.Signal, reference.Signal, bckgnd.Signal, signal.StdErr, reference.StdErr, bckgnd.StdErr);
+            ratio = FixNaN(ratio);
+            newSem = FixNaN(newSem);
             return new SpectralPoint(signal.Wavelength, ratio, newSem);
         }
 
@@ -89,6 +116,22 @@ namespace At.Matus.OpticalSpectrumLib
             double u3 = v2 * (xb - x) * uxr;
             return Math.Sqrt((u1 * u1) + (u2 * u2) + (u3 * u3));
         }
+
+        private static double RatioUncertainty(double x, double xr, double ux, double uxr)
+        {
+            double u1 = ux / xr;
+            double u2 = x * uxr / (xr * xr);
+            return Math.Sqrt((u1 * u1) + (u2 * u2));
+        }
+
+        private static double FixNaN(double value)
+        {
+            double replaceValue = 0; // set to 'value' for no operation
+            if (double.IsInfinity(value)) return replaceValue;
+            if (double.IsNaN(value)) return replaceValue;
+            return value;
+        }
+
         #endregion
 
     }
