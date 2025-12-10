@@ -36,6 +36,22 @@ namespace At.Matus.OpticalSpectrumLib
             return diff;
         }
 
+        public static OpticalSpectrum Multiply(IOpticalSpectrum first, IOpticalSpectrum second)
+        {
+            SpectralPoint[] newDataPoints = new SpectralPoint[first.NumberOfPoints];
+            for (int i = 0; i < newDataPoints.Length; i++)
+            {
+                ISpectralPoint firstPoint = first.DataPoints[i];
+                ISpectralPoint secondPoint = second.DataPoints[i];
+                newDataPoints[i] = Multiply(firstPoint, secondPoint);
+            }
+            OpticalSpectrum productSpectrum = new OpticalSpectrum(newDataPoints);
+            productSpectrum.AddMetaDataRecord("Origin", "SpecMathMultiply");
+            productSpectrum.AddMetaDataRecordsWithPrefix("First_", first.MetaData);
+            productSpectrum.AddMetaDataRecordsWithPrefix("Second_", second.MetaData);
+            return productSpectrum;
+        }
+
         public static OpticalSpectrum Ratio(IOpticalSpectrum numerator, IOpticalSpectrum denominator)
         {
             SpectralPoint[] newDataPoints = new SpectralPoint[numerator.NumberOfPoints];
@@ -82,6 +98,13 @@ namespace At.Matus.OpticalSpectrumLib
         {
             double newSignal = first.Signal + second.Signal;
             double newStdErr = SqSum(first.StdErr, second.StdErr);
+            return new SpectralPoint(first.Wavelength, newSignal, newStdErr);
+        }
+
+        private static SpectralPoint Multiply(ISpectralPoint first, ISpectralPoint second)
+        {
+            double newSignal = first.Signal * second.Signal;
+            double newStdErr = SqSum(second.Signal*first.StdErr, first.Signal*second.StdErr);
             return new SpectralPoint(first.Wavelength, newSignal, newStdErr);
         }
 
