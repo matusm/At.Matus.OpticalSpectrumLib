@@ -86,6 +86,34 @@ namespace At.Matus.OpticalSpectrumLib
             return ratio;
         }
 
+        public static OpticalSpectrum Add(IOpticalSpectrum first,
+                                          IOpticalSpectrum second,
+                                          IOpticalSpectrum third)
+        {
+            var subSum = Add(first, second);
+            return Add(subSum, third);
+        }
+
+        public static OpticalSpectrum Add(IOpticalSpectrum first,
+                                          IOpticalSpectrum second,
+                                          IOpticalSpectrum third,
+                                          IOpticalSpectrum fourth)
+        {
+            var subSum = Add(first, second);
+            var subSum2 = Add(third, fourth);
+            return Add(subSum, subSum2);
+        }
+
+        public static OpticalSpectrum Add(IOpticalSpectrum first,
+                                          IOpticalSpectrum second,
+                                          IOpticalSpectrum third,
+                                          IOpticalSpectrum fourth,
+                                          IOpticalSpectrum fifth)
+        {
+            var subSum = Add(first, second, third, fourth);
+            return Add(subSum, fifth);
+        }
+
         #region Private Methods
         private static SpectralPoint Subtract(ISpectralPoint minuend, ISpectralPoint subtrahend)
         {
