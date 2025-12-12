@@ -15,7 +15,7 @@
             StdErr = stdErr;
         }
 
-        public string ToCsvLine() => $"{Wavelength},{Signal},{StdErr}";
+        public string ToCsvLine() => $"{Wavelength:F3},{Signal:F6},{StdErr:F6}";
         public string GetCsvHeader() => "Wavelength,Signal,StdErr";
     }
 }
