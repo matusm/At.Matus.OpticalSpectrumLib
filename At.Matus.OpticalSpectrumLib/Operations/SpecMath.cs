@@ -6,6 +6,7 @@ namespace At.Matus.OpticalSpectrumLib
     {
         public static OpticalSpectrum Subtract(IOpticalSpectrum minuend, IOpticalSpectrum subtrahend)
         {
+            EnsureCompatibility(minuend, subtrahend);
             SpectralPoint[] newDataPoints = new SpectralPoint[minuend.NumberOfPoints];
             for (int i = 0; i < newDataPoints.Length; i++)
             {
@@ -22,6 +23,7 @@ namespace At.Matus.OpticalSpectrumLib
 
         public static OpticalSpectrum Add(IOpticalSpectrum first, IOpticalSpectrum second)
         {
+            EnsureCompatibility(first, second);
             SpectralPoint[] newDataPoints = new SpectralPoint[first.NumberOfPoints];
             for (int i = 0; i < newDataPoints.Length; i++)
             {
@@ -38,6 +40,7 @@ namespace At.Matus.OpticalSpectrumLib
 
         public static OpticalSpectrum Multiply(IOpticalSpectrum first, IOpticalSpectrum second)
         {
+            EnsureCompatibility(first, second);
             SpectralPoint[] newDataPoints = new SpectralPoint[first.NumberOfPoints];
             for (int i = 0; i < newDataPoints.Length; i++)
             {
@@ -54,6 +57,7 @@ namespace At.Matus.OpticalSpectrumLib
 
         public static OpticalSpectrum Ratio(IOpticalSpectrum numerator, IOpticalSpectrum denominator)
         {
+            EnsureCompatibility(numerator, denominator);
             SpectralPoint[] newDataPoints = new SpectralPoint[numerator.NumberOfPoints];
             for (int i = 0; i < newDataPoints.Length; i++)
             {
@@ -70,6 +74,8 @@ namespace At.Matus.OpticalSpectrumLib
 
         public static OpticalSpectrum ComputeBiasCorrectedRatio(IOpticalSpectrum signal, IOpticalSpectrum reference, IOpticalSpectrum bckgnd)
         {
+            EnsureCompatibility(signal, reference);
+            EnsureCompatibility(signal, bckgnd);
             SpectralPoint[] newDataPoints = new SpectralPoint[signal.NumberOfPoints];
             for (int i = 0; i < newDataPoints.Length; i++)
             {
@@ -114,7 +120,27 @@ namespace At.Matus.OpticalSpectrumLib
             return Add(subSum, fifth);
         }
 
+
+        public static bool AreCompatible(IOpticalSpectrum spectrum, IOpticalSpectrum otherSpectrum)
+        {
+            if (spectrum.NumberOfPoints != otherSpectrum.NumberOfPoints)
+                return false;
+            for (int i = 0; i < spectrum.NumberOfPoints; i++)
+            {
+                if (spectrum.DataPoints[i].Wavelength != otherSpectrum.DataPoints[i].Wavelength)
+                    return false;
+            }
+            return true;
+        }
+
         #region Private Methods
+
+        private static void EnsureCompatibility(IOpticalSpectrum spectrum, IOpticalSpectrum otherSpectrum)
+        {
+            if (!AreCompatible(spectrum, otherSpectrum))
+                throw new ArgumentException("Spectra are not compatible (different number of points or wavelengths).");
+        }
+
         private static SpectralPoint Subtract(ISpectralPoint minuend, ISpectralPoint subtrahend)
         {
             double newSignal = minuend.Signal - subtrahend.Signal;
