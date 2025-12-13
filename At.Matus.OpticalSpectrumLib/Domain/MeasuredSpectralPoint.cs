@@ -2,8 +2,9 @@
 
 namespace At.Matus.OpticalSpectrumLib
 {
-    public class MeasuredSpectralPoint : ISpectralPoint
+    public class MeasuredSpectralPoint : ISpectralPoint, IComparable<MeasuredSpectralPoint>
     {
+
         public double Wavelength { get; }
         public double Signal => sp.AverageValue;
         public double StdErr => sp.StandardDeviation / Math.Sqrt(SampleSize);
@@ -23,5 +24,6 @@ namespace At.Matus.OpticalSpectrumLib
 
         private readonly StatisticPod.StatisticPod sp = new StatisticPod.StatisticPod();
 
+        public int CompareTo(MeasuredSpectralPoint other) => Wavelength.CompareTo(other.Wavelength);
     }
 }

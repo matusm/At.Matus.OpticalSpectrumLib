@@ -1,6 +1,8 @@
-﻿namespace At.Matus.OpticalSpectrumLib
+﻿using System;
+
+namespace At.Matus.OpticalSpectrumLib
 {
-    public class SpectralPoint : ISpectralPoint
+    public class SpectralPoint : ISpectralPoint, IComparable<SpectralPoint>
     {
         public double Wavelength { get; }
         public double Signal { get; }
@@ -16,6 +18,9 @@
         }
 
         public string ToCsvLine() => $"{Wavelength:F3},{Signal:F6},{StdErr:F6}";
+        
         public string GetCsvHeader() => "Wavelength,Signal,StdErr";
+
+        public int CompareTo(SpectralPoint other) => Wavelength.CompareTo(other.Wavelength);
     }
 }
