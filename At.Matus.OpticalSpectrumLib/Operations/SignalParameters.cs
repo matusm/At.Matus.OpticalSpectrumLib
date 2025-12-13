@@ -19,5 +19,20 @@
         {
             return spectrum.GetSignalStatistics().MinimumValue;
         }
+
+        public static double GetMinimumWavelength(this IOpticalSpectrum spectrum)
+        {
+            if (spectrum.DataPoints.Length == 0)
+                return double.NaN;
+            return spectrum.DataPoints[0].Wavelength;
+        }
+
+        public static double GetMaximumWavelength(this IOpticalSpectrum spectrum)
+        {
+            if (spectrum.DataPoints.Length == 0)
+                return double.NaN;
+            return spectrum.DataPoints[spectrum.DataPoints.Length - 1].Wavelength;
+        }
+
     }
 }
