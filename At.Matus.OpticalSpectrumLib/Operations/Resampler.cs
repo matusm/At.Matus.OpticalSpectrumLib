@@ -6,29 +6,38 @@ namespace At.Matus.OpticalSpectrumLib
 {
     public static partial class Resampler
     {
+        // overload that creates equidistant target wavelengths and uses them for resampling
         public static OpticalSpectrum ResampleSpectrum(this IOpticalSpectrum inputSpec, double startWavelength, double endWavelength, double step)
         {
             double[] targetWavelengths = CreateEquidistantWavelengths(startWavelength, endWavelength, step);
             return ResampleSpectrum(inputSpec, targetWavelengths);
         }
 
+        // overload that uses a list of target wavelengths for resampling
         public static OpticalSpectrum ResampleSpectrum(this IOpticalSpectrum inputSpec, List<double> unsortedTargetWavelengths)
         {
-            double[] targetWavelengths = unsortedTargetWavelengths.OrderBy(wl => wl).ToArray();
+            return ResampleSpectrum(inputSpec, unsortedTargetWavelengths.ToArray()); // sorting is performed in the core method
+        }
+
+        // overload that uses the domain of another spectrum as target
+        public static OpticalSpectrum ResampleSpectrum(this IOpticalSpectrum inputSpec, IOpticalSpectrum domainSpec)
+        {
+            double[] targetWavelengths = domainSpec.Wavelengths;
             return ResampleSpectrum(inputSpec, targetWavelengths);
         }
 
+        // core resampling method that performs linear interpolation
         public static OpticalSpectrum ResampleSpectrum(this IOpticalSpectrum inputSpec, double[] targetWavelengths)
         {
+            double[] sortedTargetWavelengths = targetWavelengths.OrderBy(wl => wl).ToArray();
             double[] inputWavelengths = inputSpec.Wavelengths;
             double[] inputIntensities = inputSpec.Signals;
             double[] inputStdErr = inputSpec.StdErrValues;
-            double[] outputIntensities = new double[targetWavelengths.Length];
-            double[] outputStdErr = new double[targetWavelengths.Length];
-            double[] outputStdDev = new double[targetWavelengths.Length];
-            for (int i = 0; i < targetWavelengths.Length; i++)
+            double[] outputIntensities = new double[sortedTargetWavelengths.Length];
+            double[] outputStdErr = new double[sortedTargetWavelengths.Length];
+            for (int i = 0; i < sortedTargetWavelengths.Length; i++)
             {
-                double targetWl = targetWavelengths[i];
+                double targetWl = sortedTargetWavelengths[i];
                 var (smallerIndex, largerIndex) = FindNeighbors(inputWavelengths, targetWl);
                 if (smallerIndex == -1 || largerIndex == -1)
                 {
@@ -46,7 +55,7 @@ namespace At.Matus.OpticalSpectrumLib
                     outputStdErr[i] = LinearInterpolate(x0, se0, x1, se1, targetWl);
                 }
             }
-            var spec = new OpticalSpectrum(targetWavelengths, outputIntensities, outputStdErr);
+            OpticalSpectrum spec = new OpticalSpectrum(targetWavelengths, outputIntensities, outputStdErr);
             return spec;
         }
     }
