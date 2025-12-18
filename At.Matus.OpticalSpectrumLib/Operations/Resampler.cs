@@ -29,7 +29,9 @@ namespace At.Matus.OpticalSpectrumLib
         // core resampling method that performs linear interpolation
         public static OpticalSpectrum ResampleSpectrum(this IOpticalSpectrum inputSpec, double[] targetWavelengths)
         {
-            double[] sortedTargetWavelengths = targetWavelengths.OrderBy(wl => wl).ToArray();
+            double minWl = inputSpec.GetMinimumWavelength();
+            double maxWl = inputSpec.GetMaximumWavelength();
+            double[] sortedTargetWavelengths = SortAndClipArray(minWl, maxWl, inputSpec.Wavelengths);
             double[] inputWavelengths = inputSpec.Wavelengths;
             double[] inputIntensities = inputSpec.Signals;
             double[] inputStdErr = inputSpec.StdErrValues;

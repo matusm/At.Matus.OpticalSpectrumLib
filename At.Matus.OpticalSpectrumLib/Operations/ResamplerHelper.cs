@@ -1,9 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace At.Matus.OpticalSpectrumLib
 {
     public static partial class Resampler
     {
+        private static double[] SortAndClipArray(double min, double max, double[] arr)
+        {
+            List<double> temp = new List<double>();
+            foreach (double val in arr)
+                if (val >= min && val <= max)
+                    temp.Add(val);
+            return temp.OrderBy(wl => wl).ToArray();
+        }
+
         // the array must be sorted in ascending order
         private static (int smallerIndex, int largerIndex) FindNeighbors(double[] arr, double target)
         {
