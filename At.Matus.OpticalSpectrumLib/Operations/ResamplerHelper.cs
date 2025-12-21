@@ -29,8 +29,10 @@ namespace At.Matus.OpticalSpectrumLib
                 int mid = low + (high - low) / 2;
                 if (arr[mid] == target)
                 {
-                    smallerIndex = (mid > 0) ? mid - 1 : -1;
-                    largerIndex = (mid < arr.Length - 1) ? mid + 1 : -1;
+                    // At boundaries, return the boundary index itself
+                    // e.g., if target == arr[0] => (0, 1), if target == arr[^1] => (n-2, n-1)
+                    smallerIndex = (mid == 0) ? 0 : mid - 1;
+                    largerIndex = (mid == arr.Length - 1) ? mid : mid + 1;
                     return (smallerIndex, largerIndex);
                 }
                 else if (arr[mid] < target)
