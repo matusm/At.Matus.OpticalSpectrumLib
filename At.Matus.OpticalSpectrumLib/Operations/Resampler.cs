@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace At.Matus.OpticalSpectrumLib
 {
@@ -31,7 +30,7 @@ namespace At.Matus.OpticalSpectrumLib
         {
             double minWl = inputSpec.GetMinimumWavelength();
             double maxWl = inputSpec.GetMaximumWavelength();
-            double[] sortedTargetWavelengths = SortAndClipArray(minWl, maxWl, inputSpec.Wavelengths);
+            double[] sortedTargetWavelengths = SortAndClipArray(minWl, maxWl, targetWavelengths);
             double[] inputWavelengths = inputSpec.Wavelengths;
             double[] inputIntensities = inputSpec.Signals;
             double[] inputStdErr = inputSpec.StdErrValues;
@@ -57,7 +56,7 @@ namespace At.Matus.OpticalSpectrumLib
                     outputStdErr[i] = LinearInterpolate(x0, se0, x1, se1, targetWl);
                 }
             }
-            OpticalSpectrum spec = new OpticalSpectrum(targetWavelengths, outputIntensities, outputStdErr);
+            OpticalSpectrum spec = new OpticalSpectrum(sortedTargetWavelengths, outputIntensities, outputStdErr);
             return spec;
         }
     }
