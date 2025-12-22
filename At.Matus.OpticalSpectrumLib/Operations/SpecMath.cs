@@ -4,7 +4,8 @@ namespace At.Matus.OpticalSpectrumLib
 {
     public static class SpecMath
     {
-        public static OpticalSpectrum Scale(IOpticalSpectrum spec, double factor)
+        // for Scale operation an extension method is used
+        public static OpticalSpectrum Scale(this IOpticalSpectrum spec, double factor)
         {
             SpectralPoint[] newDataPoints = new SpectralPoint[spec.NumberOfPoints];
             for (int i = 0; i < newDataPoints.Length; i++)
