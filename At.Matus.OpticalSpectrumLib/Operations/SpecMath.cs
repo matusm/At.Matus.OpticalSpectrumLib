@@ -4,6 +4,18 @@ namespace At.Matus.OpticalSpectrumLib
 {
     public static class SpecMath
     {
+        public static OpticalSpectrum Scale(IOpticalSpectrum spec, double factor)
+        {
+            SpectralPoint[] newDataPoints = new SpectralPoint[spec.NumberOfPoints];
+            for (int i = 0; i < newDataPoints.Length; i++)
+            {
+                ISpectralPoint point = spec.DataPoints[i];
+                newDataPoints[i] = Scale(point, factor);
+            }
+            OpticalSpectrum scaled = new OpticalSpectrum(newDataPoints);
+            return scaled;
+        }
+
         public static OpticalSpectrum Subtract(IOpticalSpectrum minuend, IOpticalSpectrum subtrahend)
         {
             EnsureCompatibility(minuend, subtrahend);
@@ -139,6 +151,11 @@ namespace At.Matus.OpticalSpectrumLib
         {
             if (!AreCompatible(spectrum, otherSpectrum))
                 throw new ArgumentException("Spectra are not compatible (different number of points or wavelengths).");
+        }
+
+        private static SpectralPoint Scale(ISpectralPoint point, double factor)
+        {
+            return new SpectralPoint(point.Wavelength, point.Signal * factor, point.StdErr * factor);
         }
 
         private static SpectralPoint Subtract(ISpectralPoint minuend, ISpectralPoint subtrahend)
