@@ -4,18 +4,6 @@ namespace At.Matus.OpticalSpectrumLib
 {
     public static class SpecMath
     {
-        public static OpticalSpectrum Scale(IOpticalSpectrum spec, double factor)
-        {
-            SpectralPoint[] newDataPoints = new SpectralPoint[spec.NumberOfPoints];
-            for (int i = 0; i < newDataPoints.Length; i++)
-            {
-                ISpectralPoint point = spec.DataPoints[i];
-                newDataPoints[i] = Scale(point, factor);
-            }
-            OpticalSpectrum scaled = new OpticalSpectrum(newDataPoints);
-            return scaled;
-        }
-
         public static OpticalSpectrum Subtract(IOpticalSpectrum minuend, IOpticalSpectrum subtrahend)
         {
             EnsureCompatibility(minuend, subtrahend);
@@ -30,23 +18,6 @@ namespace At.Matus.OpticalSpectrumLib
             diff.AddMetaDataRecord("Origin", "SpecMathSubtract");
             diff.AddMetaDataRecordsWithPrefix("Minuend_", minuend.MetaData);
             diff.AddMetaDataRecordsWithPrefix("Subtrahend_", subtrahend.MetaData);
-            return diff;
-        }
-
-        public static OpticalSpectrum Add(IOpticalSpectrum first, IOpticalSpectrum second)
-        {
-            EnsureCompatibility(first, second);
-            SpectralPoint[] newDataPoints = new SpectralPoint[first.NumberOfPoints];
-            for (int i = 0; i < newDataPoints.Length; i++)
-            {
-                ISpectralPoint firstPoint = first.DataPoints[i];
-                ISpectralPoint secondPoint = second.DataPoints[i];
-                newDataPoints[i] = Add(firstPoint, secondPoint);
-            }
-            OpticalSpectrum diff = new OpticalSpectrum(newDataPoints);
-            diff.AddMetaDataRecord("Origin", "SpecMathAdd");
-            diff.AddMetaDataRecordsWithPrefix("First_", first.MetaData);
-            diff.AddMetaDataRecordsWithPrefix("Second_", second.MetaData);
             return diff;
         }
 
@@ -104,6 +75,23 @@ namespace At.Matus.OpticalSpectrumLib
             return ratio;
         }
 
+        public static OpticalSpectrum Add(IOpticalSpectrum first, IOpticalSpectrum second)
+        {
+            EnsureCompatibility(first, second);
+            SpectralPoint[] newDataPoints = new SpectralPoint[first.NumberOfPoints];
+            for (int i = 0; i < newDataPoints.Length; i++)
+            {
+                ISpectralPoint firstPoint = first.DataPoints[i];
+                ISpectralPoint secondPoint = second.DataPoints[i];
+                newDataPoints[i] = Add(firstPoint, secondPoint);
+            }
+            OpticalSpectrum diff = new OpticalSpectrum(newDataPoints);
+            diff.AddMetaDataRecord("Origin", "SpecMathAdd");
+            diff.AddMetaDataRecordsWithPrefix("First_", first.MetaData);
+            diff.AddMetaDataRecordsWithPrefix("Second_", second.MetaData);
+            return diff;
+        }
+
         public static OpticalSpectrum Add(IOpticalSpectrum first,
                                           IOpticalSpectrum second,
                                           IOpticalSpectrum third)
@@ -132,6 +120,17 @@ namespace At.Matus.OpticalSpectrumLib
             return Add(subSum, fifth);
         }
 
+        public static OpticalSpectrum Add(IOpticalSpectrum[] spectra)
+        {
+            if (spectra == null || spectra.Length == 0)
+                throw new ArgumentException("Spectra array is null or empty.");
+            OpticalSpectrum sum = spectra[0] as OpticalSpectrum;
+            for (int i = 1; i < spectra.Length; i++)
+            {
+                sum = Add(sum, spectra[i]);
+            }
+            return sum;
+        }
 
         public static bool AreCompatible(IOpticalSpectrum spectrum, IOpticalSpectrum otherSpectrum)
         {
