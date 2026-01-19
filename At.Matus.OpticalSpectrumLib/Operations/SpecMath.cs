@@ -4,6 +4,18 @@ namespace At.Matus.OpticalSpectrumLib
 {
     public static class SpecMath
     {
+        public static OpticalSpectrum Scale(this IOpticalSpectrum spec, double factor)
+        {
+            SpectralPoint[] newDataPoints = new SpectralPoint[spec.NumberOfPoints];
+            for (int i = 0; i < newDataPoints.Length; i++)
+            {
+                ISpectralPoint point = spec.DataPoints[i]; 
+                newDataPoints[i] = Scale(point, factor);
+            }
+            OpticalSpectrum scaled = new OpticalSpectrum(newDataPoints);
+            return scaled;
+        }
+
         public static OpticalSpectrum Subtract(IOpticalSpectrum minuend, IOpticalSpectrum subtrahend)
         {
             EnsureCompatibility(minuend, subtrahend);
