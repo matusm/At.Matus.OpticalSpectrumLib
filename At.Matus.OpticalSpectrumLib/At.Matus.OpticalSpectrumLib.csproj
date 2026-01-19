@@ -50,7 +50,7 @@
   <ItemGroup>
     <Compile Include="Abstractions\IOpticalSpectrum.cs" />
     <Compile Include="Abstractions\ISpectralPoint.cs" />
-    <Compile Include="Domain\FileOps.cs" />
+    <Compile Include="Tools\FileTools.cs" />
     <Compile Include="Operations\Masker.cs" />
     <Compile Include="Domain\MeasuredOpticalSpectrum.cs" />
     <Compile Include="Domain\MeasuredSpectralPoint.cs" />
