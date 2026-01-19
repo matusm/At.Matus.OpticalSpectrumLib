@@ -22,7 +22,6 @@ namespace At.Matus.OpticalSpectrumLib.Domain
             }
             // final line
             sb.AppendLine($"{commentPrefix}End of Data");
-
             return sb.ToString();
         }
 
@@ -30,6 +29,18 @@ namespace At.Matus.OpticalSpectrumLib.Domain
         {
             var content = spectrum.ToFriendlyString(commentPrefix, delimiter);
             File.WriteAllText(filePath, content);
+        }
+
+        public static void SaveAsSimpleCsvFile(this IOpticalSpectrum spectrum, string filePath, bool writeHeader = true)
+        {
+            StreamWriter csvFile = new StreamWriter(filePath);
+            if (writeHeader)
+                csvFile.WriteLine(spectrum.DataPoints[0].GetCsvHeader());
+            foreach (ISpectralPoint item in spectrum.DataPoints)
+            {
+                csvFile.WriteLine(item.ToCsvLine());
+            }
+            csvFile.Close();
         }
     }
 }
