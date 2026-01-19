@@ -1,5 +1,6 @@
 ﻿using At.Matus.MetaData;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace At.Matus.OpticalSpectrumLib
@@ -45,6 +46,14 @@ namespace At.Matus.OpticalSpectrumLib
         public void AddMetaDataRecord(string key, string value)
         {
             metaData.AddRecord(key, value);
+        }
+
+        public void AddMetaDataRecord(Dictionary<string, string> records)
+        {
+            foreach (var record in records)
+            {
+                AddMetaDataRecord(record.Key, record.Value);
+            }
         }
 
         private readonly MeasuredSpectralPoint[] dataPoints;
