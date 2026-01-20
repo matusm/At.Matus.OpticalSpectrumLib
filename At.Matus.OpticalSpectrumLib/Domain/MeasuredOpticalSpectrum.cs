@@ -56,7 +56,12 @@ namespace At.Matus.OpticalSpectrumLib
             }
         }
 
+        public void DeleteMetaDataRecords()
+        {
+            metaData = new MeasurementMetaData();
+        }
+
         private readonly MeasuredSpectralPoint[] dataPoints;
-        private readonly MeasurementMetaData metaData = new MeasurementMetaData();
+        private MeasurementMetaData metaData = new MeasurementMetaData();
     }
 }

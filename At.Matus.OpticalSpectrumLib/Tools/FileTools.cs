@@ -23,23 +23,23 @@ namespace At.Matus.OpticalSpectrumLib.Domain
             csvFile.Close();
         }
 
-        public static string ToFriendlyString(this IOpticalSpectrum spectrum, string commentPrefix = "# ", string delimiter = ",")
+        public static string ToFriendlyString(this IOpticalSpectrum spectrum, string commentPrefix = "# ", string delimiter = ",", string kvDelimiter = " = ")
         {
             var sb = new StringBuilder();
             // metadata
             foreach (var record in spectrum.MetaData.Records)
             {
-                sb.AppendLine($"{commentPrefix}{record.Key}: {record.Value}");
+                sb.AppendLine($"{commentPrefix}{record.Key}{kvDelimiter}{record.Value}");
             }
             // data header
             sb.AppendLine($"{commentPrefix}Wavelength{delimiter}Signal");
             // data points
             foreach (var point in spectrum.DataPoints)
             {
-                sb.AppendLine($"{point.Wavelength.ToString("F2")}{delimiter}{point.Signal.ToString("F2")}");
+                sb.AppendLine($"{point.Wavelength.ToString("F1")}{delimiter}{point.Signal.ToString("F3")}");
             }
             // final line
-            sb.AppendLine($"{commentPrefix}End of Data");
+            //sb.AppendLine($"{commentPrefix}End of Data");
             return sb.ToString();
         }
 
