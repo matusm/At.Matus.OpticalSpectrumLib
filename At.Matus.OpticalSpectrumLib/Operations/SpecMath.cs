@@ -2,7 +2,7 @@
 
 namespace At.Matus.OpticalSpectrumLib
 {
-    public static class SpecMath
+    public static partial class SpecMath
     {
         public static OpticalSpectrum Scale(this IOpticalSpectrum spec, double factor)
         {
